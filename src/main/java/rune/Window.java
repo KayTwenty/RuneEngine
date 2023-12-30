@@ -4,6 +4,9 @@ import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 
+import java.util.Objects;
+
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.opengl.GL11.*;
@@ -29,13 +32,24 @@ public class Window {
         return Window.window;
     }
 
+    // Run the window
     public void run() {
         System.out.println("Hello LWJGL" + Version.getVersion() + "!");
 
         init();
         loop();
+
+        // Free the memory
+        glfwFreeCallbacks(glfwWindow);
+        glfwDestroyWindow(glfwWindow);
+
+        // Terminate GLFW and free the error callback
+        glfwTerminate();
+        Objects.requireNonNull(glfwSetErrorCallback(null)).free();
+
     }
 
+    // Initialize the main window
     public void init() {
         // Set an error callback
         GLFWErrorCallback.createPrint(System.err).set();
@@ -69,6 +83,7 @@ public class Window {
         GL.createCapabilities();
     }
 
+    // Loop until the window is closed
     public void loop() {
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
