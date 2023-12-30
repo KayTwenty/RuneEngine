@@ -104,6 +104,7 @@ public class Window {
             glClearColor(r, g, g, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
+            // Demo Example, will be deleted later
             if (fadeToBlack) {
                 r = Math.max(r - 0.01f, 0);
                 g = Math.max(g - 0.01f, 0);

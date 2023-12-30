@@ -7,7 +7,7 @@ public class MouseListener {
     private static MouseListener instance;
     private double scrollX, scrollY;
     private double xPos, yPos, lastY, lastX;
-    private final boolean[] mouseButtonPressed = new boolean[9];
+    private final boolean[] mouseButtonPressed = new boolean[9]; // 9 is the max number of mouse buttons
     private boolean isDragging;
 
     private MouseListener() {
@@ -19,6 +19,7 @@ public class MouseListener {
         this.lastY = 0.0;
     }
 
+    // Get the instance of the mouse listener
     public static MouseListener get() {
         if (MouseListener.instance == null) {
             MouseListener.instance = new MouseListener();
@@ -27,6 +28,7 @@ public class MouseListener {
         return MouseListener.instance;
     }
 
+    // Callback for when the mouse is moved
     public static void mousePosCallback(long window, double xpos, double ypos) {
         get().lastX = get().xPos;
         get().lastY = get().yPos;
@@ -35,6 +37,7 @@ public class MouseListener {
         get().isDragging = get().mouseButtonPressed[0] || get().mouseButtonPressed[1] || get().mouseButtonPressed[2];
     }
 
+    // Callback for when a mouse button is pressed or released
     public static void mouseButtonCallback(long window, int button, int action, int mods) {
         if (action == GLFW_PRESS) {
             if (button < get().mouseButtonPressed.length) {
@@ -48,11 +51,13 @@ public class MouseListener {
         }
     }
 
+    // Callback for when the scroll wheel is moved
     public static void mouseScrollCallback(long window, double xOffset, double yOffset) {
         get().scrollX = xOffset;
         get().scrollY = yOffset;
     }
 
+    // Reset the scroll wheel
     public static void endFrame() {
         get().scrollX = 0;
         get().scrollY = 0;
